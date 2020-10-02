@@ -34,6 +34,12 @@ public class Programa {
 				, "pedrohhouro@gmail.com", new Date(), 4000.0, departamento);
 		vendedorDao.inserir(novoVendedor);
 		System.out.println("Inserido! Novo id= " + novoVendedor.getId());
+		
+		System.out.println("\n======== TESTE 5: Atualizando um Vendedor========");
+		vendedor = vendedorDao.buscarPorId(1);
+		vendedor.setNome("Martha Whaine");
+		vendedorDao.atualizar(vendedor);
+		System.out.println("Atualização Completa");
 	}
 
 }
