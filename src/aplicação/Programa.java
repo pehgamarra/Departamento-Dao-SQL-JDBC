@@ -10,11 +10,11 @@ public class Programa {
 		
 		VendedorDao vendedorDao = FabricaDao.criarVendedorDao();
 		
-		Vendedor vendedor = vendedorDao.acharPorId(3);
+		System.out.println("=== TESTE 1: vendedor encontrado pelo ID===");
+		Vendedor vendedor = vendedorDao.buscarPorId(3);
 		
 		System.out.println(vendedor);
 		
-
 	}
 
 }

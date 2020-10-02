@@ -9,7 +9,7 @@ public interface VendedorDao {
 	void inserir(Vendedor obj);
 	void atualizar(Vendedor obj);
 	void deletarPorId(Integer id);
-	Vendedor acharPorId(Integer id);
+	Vendedor buscarPorId(Integer id);
 	List<Vendedor> acharTodos();
 
 }
