@@ -1,5 +1,6 @@
 package aplicação;
 
+import java.util.Date;
 import java.util.List;
 
 import entidade.model.Departamento;
@@ -28,6 +29,11 @@ public class Programa {
 		for (Vendedor obj : lista) {
 			System.out.println(obj);
 		}
+		System.out.println("\n======== TESTE 4: Inserindo Vendedor========");
+		Vendedor novoVendedor = new Vendedor (null, "Pedro Henrique Sobrinho Gamarra da Silva"
+				, "pedrohhouro@gmail.com", new Date(), 4000.0, departamento);
+		vendedorDao.inserir(novoVendedor);
+		System.out.println("Inserido! Novo id= " + novoVendedor.getId());
 	}
 
 }
