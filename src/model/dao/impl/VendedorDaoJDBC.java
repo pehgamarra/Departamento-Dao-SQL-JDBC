@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import db.DB;
 import db.DbException;
@@ -61,6 +64,7 @@ public class VendedorDaoJDBC implements VendedorDao {
 			DB.closeResultSet(resultset);
 		}
 	}
+	
 	private Vendedor instantiateVendedor(ResultSet resultset, Departamento departamento) throws SQLException {
 		Vendedor obj = new Vendedor();
 		obj.setId(resultset.getInt("Id"));
@@ -84,6 +88,47 @@ public class VendedorDaoJDBC implements VendedorDao {
 	public List<Vendedor> acharTodos() {
 		return null;
 	}
+
+	@Override
+	public List<Vendedor> buscarPorDepartamento(Departamento departamento) {
+		PreparedStatement statement = null;
+		ResultSet resultset = null;
+		try {
+			statement = conexao.prepareStatement(
+					"SELECT seller.*,department.Name as DepName "
+					+"FROM seller INNER JOIN department "
+					+"ON seller.DepartmentId = department.Id "
+					+"WHERE DepartmentId = ? "
+					+"ORDER BY Name ");
+			
+			statement.setInt(1, departamento.getId());
+			resultset = statement.executeQuery();
+			
+			List<Vendedor> list = new ArrayList<>();
+			Map<Integer, Departamento> map = new HashMap<>();
+			
+			while(resultset.next()) {
+				Departamento dep = map.get(resultset.getInt("DepartmentId"));
+				
+				if(dep == null) {
+					dep = instantiateDepartamento(resultset);
+					map.put(resultset.getInt("DepartmentId"), dep);
+				}
+				
+				Vendedor obj = instantiateVendedor(resultset, dep);
+				list.add(obj);
+			
+			}
+			return list;
+			
+		}catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(statement);
+			DB.closeResultSet(resultset);
+		}
 	
+	}
 
 }
