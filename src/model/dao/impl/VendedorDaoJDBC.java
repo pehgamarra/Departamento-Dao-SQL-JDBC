@@ -93,6 +93,26 @@ public class VendedorDaoJDBC implements VendedorDao {
 
 	@Override
 	public void deletarPorId(Integer id) {
+		PreparedStatement statement = null;
+		try {
+			statement = conexao.prepareStatement("DELETE FROM seller WHERE Id = ? ");
+			
+			statement.setInt(1, id);
+			
+			int linhas = statement.executeUpdate();
+			
+			if(linhas == 0) {
+				throw new DbException("Este ID nao existe!");
+			}
+			
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(statement);
+		}
+
 	}
 
 	@Override
